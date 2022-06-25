@@ -12,7 +12,13 @@ import HomeScreen from './HomeScreen';
 import AboutScreen from './AboutScreen';
 import ContactScreen from './ContactScreen';
 import { Icon } from 'react-native-elements';
-import logo from '../assets/images/logo.png'
+import logo from '../assets/images/logo.png';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchPartners } from '../features/partners/partnersSlice';
+import { fetchCampsites } from '../features/campsites/campsitesSlice';
+import { fetchPromotions } from '../features/promotions/promotionsSlice';
+import { fetchComments } from '../features/comments/commentsSlice';
 
 const Drawer = createDrawerNavigator();
 
@@ -125,18 +131,27 @@ const ContactNavigator = () => {
 const CustomDrawerContent = (props) => (
     <DrawerContentScrollView {...props}>
         <View style={styles.drawerHeader}>
-            <View style={{flex: 1 }}>
+            <View style={{ flex: 1 }}>
                 <Image source={logo} style={styles.drawerImage} />
             </View>
-            <View style={{flex: 2 }}>
+            <View style={{ flex: 2 }}>
                 <Text style={styles.drawerHeaderText}>NuCamp</Text>
             </View>
         </View>
-        <DrawerItemList {...props} labelStyle={{ fontWeight: 'bold'}} />
+        <DrawerItemList {...props} labelStyle={{ fontWeight: 'bold' }} />
     </DrawerContentScrollView>
-)
+);
 
 const Main = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchCampsites());
+        dispatch(fetchPromotions());
+        dispatch(fetchPartners());
+        dispatch(fetchComments());
+    }, [dispatch]);
+
     return (
         <View
             style={{
@@ -226,17 +241,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flex: 1,
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
     drawerHeaderText: {
         color: '#fff',
         fontSize: 24,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     drawerImage: {
         margin: 10,
         height: 60,
-        width: 60
+        width: 60,
     },
     stackIcon: {
         marginLeft: 10,
