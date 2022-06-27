@@ -91,7 +91,7 @@ const ReservationScreen = () => {
                 />
             </View>
             <Modal
-                animationType='fade'
+                animationType='slide'
                 transparent={false}
                 visible={showModal}
                 onRequestClose={() => setShowModal(!showModal)}
